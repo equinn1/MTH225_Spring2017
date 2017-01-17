@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(rstan)
+library(bayesplot)
+
+N = 30
+
+theta=0.4
+
+y = rbinom(N,1,theta)
+@
+
+<<>>=
+modl="
+data {
+  int N;      //sample size
+  int y[N];   //data vector
+}
+parameters {
+  real<lower=0,upper=1> theta;   //probability of success
+}
+model {
+  theta ~ uniform(0,1);      //uniform prior for theta
+  y ~ bernoulli(theta);      //likelihood given theta
+}
+"
+@
+
+<<>>=
+stanfit = stan(model_code=modl)
+
+print(stanfit)
+@
+
+<<>>=
+
+pd=extract(stanfit,permuted=FALSE)
+
+str(pd)
+
+mcmc_dens_overlay(pd,pars='theta')
+@
+\end{document}

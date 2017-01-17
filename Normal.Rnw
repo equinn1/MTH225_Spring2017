@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\begin{document}
+
+Generate 300 standard normal random variables
+<<>>=
+library(bayesplot)
+N=300
+y = rnorm(N,0,1)
+@
+
+Print the first 20 values
+<<>>=
+y[1:20]
+@
+
+Now compute the mean and standard deviation of y
+<<>>=
+mean(y)
+sd(y)
+@
+
+Construct a data frame, the main data structure in R
+
+<<>>=
+df = data.frame(y)
+@
+
+Plot a histogram of y with the bayesplot package
+<<>>=
+mcmc_hist(df,pars='y')
+@
+
+
+\end{document}
