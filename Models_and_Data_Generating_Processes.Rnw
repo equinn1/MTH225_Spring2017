@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+
+\section*{Statistics, Models, and Data Generating Processes}
+\subsection*{All Models are Wrong}
+In applied statistics, it is useful to think in terms of a \textbf{data generating process}.
+\par\vspace{0.4 cm}
+For example, in the case of the \href{http://cdiac.ornl.gov/epubs/ndp/ushcn/ushcn.html}{United States Historical Climatology Network (USHCN)} data, the data generating process is the earth's atmosphere.
+\par\vspace{0.4 cm}
+The data generating process is almost always so complex that it is impossible to fully describe.
+\par\vspace{0.4 cm}
+To better understand complex processes, we create \textbf{models} that mimic the behavior of the real-world process.
+\par\vspace{0.4 cm}
+There is a famous quote attributed to George E.P. Box:
+\par\vspace{0.4 cm}
+\textit{All models are wrong.  Some models are useful}
+\par\vspace{0.4 cm}
+A good model will capture the important aspects of the data generating process, which makes it useful if we want to better understand the process.
+\par\vspace{0.4 cm}
+A model can \textbf{never} fully replicate the data generating process, so in that sense, all models are "wrong". 
+\par\vspace{0.4 cm}
+It is absolutely critical that we recognize the difference between models and reality:
+\begin{itemize}
+\item In statistics, we build models that help explain complicated processes.
+\item Statistics should not be thought of as a guide to what is true and false. Any inferences we make will be based on a model, which as we have noted, is wrong.
+\item \textit{We don't assume there is a 'true' model that we have to find.}  All we can say is that some models are better than others.  We are trying to find one good enough for our purposes.
+\end{itemize}
+\subsection*{The Guassian or Normal Distribution}
+A \textbf{probabiliity distribution} is an abstract mathematical model for a random process.
+\par\vspace{0.4 cm}
+The most important probability distribution in statistics is the Gaussian or "normal" distribution, also known as the bell curve because of its shape.
+\par\vspace{0.4 cm}
+We can use R to simulate a Gaussian data generating process, and draw a frequency histogram of the results:
+<<>>=
+library(bayesplot)                       #load the required package
+y = rnorm(1000)                          #simulate 1000 normal random variables
+df=data.frame(y)                         #mcmc_hist needs a data frame, not an array
+mcmc_hist(df)
+@
+
+If we repeat the process, we get a different histogram:
+<<>>=
+library(bayesplot)                       #load the required package
+y = rnorm(1000)                          #simulate 1000 normal random variables
+df=data.frame(y)                         #mcmc_hist needs a data frame, not an array
+mcmc_hist(df)
+@
+ You can think of what we did as drawing two "samples" from a Gaussian distribution.  In classical statistics, all randomness arises from differences between samples, known as \textbf{sampling error}.
+ \par\vspace{0.4 cm}
+ In Bayesian statistics, randomness is considered to arise from our uncertainty about the process.  The Gaussian distribution in this situation is a model for our uncertainty.
+ \par\vspace{0.4 cm}
+ These are \textit{philosophical} differences.  Both classical and Bayesian statistics are based on probability theory, which is absolutely pure, squeaky-clean axiomatic mathematics.  In many cases, the classical and Bayesian approaches produce very similar results.
+\end{document}
