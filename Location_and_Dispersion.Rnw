@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+
+\section*{Location and Dispersion}
+We defined a \textbf{probabiliity distribution} as an abstract mathematical model for a random process.
+\par\vspace{0.4 cm}
+Even though it is always a simplification of the real data generating process, there is a great deal of information contained in a probability distribution, which necessitates some kind of summarization.
+\par\vspace{0.4 cm}
+Probably the most important such summarization is the \textit{mean} of the distribution, which conveys where the "center" of the distribution is located. 
+\par\vspace{0.4 cm}
+For a Gaussian distribution, the bell-curve shape is symmetric, and the center is where the peak of the bell curve occurs.
+\par\vspace{0.4 cm}
+In a "standard" Gaussian (or normal) distribution, the center occurs at zero.
+\par\vspace{0.4 cm}
+The R command:
+\par\vspace{0.4 cm}\noindent
+\texttt{rnorm(N)}
+\par\vspace{0.4 cm}
+will generate a vector of N standard normal random variables:
+<<>>=
+library(ggplot2)                           #load the libraries we will need
+library(reshape2)
+
+N=1000                                     #set the sample size to 1000
+y_norm = rnorm(N)                          #simulate 1000 standard normal random variables
+@
+
+We can plot the density, which is a smoothed histogram of the data.  For a standard normal, the sample density plot will nearly always be centered near zero:
+
+<<>>=
+mean(y_norm)                               #print the mean
+
+df=data.frame(y_norm)                      #ggplot needs a data frame
+ggplot(df,aes(x=y_norm,fill=TRUE)) + geom_density(alpha=0.25)
+@
+
+The normal distribution has two \textbf{parameters} called the \textbf{mean} (or location) and \textbf{standard deviation} (or dispersion).
+\par\vspace{0.4 cm}
+The mean tells us where the center of the distribution is located.  For a standard normal distribution, the mean is zero.  
+\par\vspace{0.4 cm}
+We can specify a mean different from zero in the \texttt{rnorm()} function.  If we want to generate normally distrubuted data with a mean of 5, we would code:
+<<>>=
+y_norm2 = rnorm(N,5)
+
+mean(y_norm2)
+@
+
+The bell curve for the second normal distribution will be centered at 5:
+<<>>=
+df=data.frame(y_norm,y_norm2)                  #mcmc_hist needs a data frame, not an array
+data<- melt(df); ggplot(data,aes(x=value, fill=variable)) + geom_density(alpha=0.25)
+@
+
+The second parameter, the standard deviation, is a measure of \textbf{dispersion}, which tells us how concentrated or spread out the values are around the mean.
+\par\vspace{0.4 cm}
+The standard normal has a standard deviation of 1.  To generate a normal random sample centered at zero with a standard deviation of 2, we would code:
+<<>>=
+y_norm3 = rnorm(N,0,2)           #generate a normal sample centered at 0 with standard deviation 2
+
+mean(y_norm3)
+sd(y_norm3)                
+@
+This will produce a bell curve that is broader and flatter than a standard normal, but still centered at zero:
+<<>>=
+df=data.frame(y_norm,y_norm3) 
+data<- melt(df); ggplot(data,aes(x=value, fill=variable)) + geom_density(alpha=0.25)
+@
+
+In this exercise, we used a powerful graphics package called \texttt{ggplot2}.  Graphics are generally rathere complex, and so is the syntax for \texttt{ggplot2}.  Usually we will be given the code for graphs rather than writing it from scratch.
+\end{document}
