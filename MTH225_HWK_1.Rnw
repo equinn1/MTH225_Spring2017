@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+
+\section*{The Normal Distribution}
+\subsection*{Background}
+We described an probability distribution as an abstract mathematical model for a random process.
+\par\vspace{0.4 cm}
+In this course we will explore about a dozen of these, but there are many more.
+\par\vspace{0.4 cm}
+Technically, any nonnegative real-valued function that integrates to 1 over the real line is a probability density, so the number of distributions is not finite.  While this is worth knowing, we will rarely concern ourselves with this kind of escoteric consideration.
+\par\vspace{0.4 cm}
+\textbf{We are primarily interested in probability distrubtions because they will be the building blocks of our models for data generating processes and their parameters}.
+\par\vspace{0.4 cm}
+We'll start with the most important and useful distribution, the Gaussian or normal distribution, but first a bit of a digression.
+\par\vspace{0.4 cm}
+In this course we do not have an official textbook because:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item  They are expensive
+\item  Many of them lack any coverage of modern computationally intensive methods
+\item  Anything that is in a textbook, you can find on the internet
+\item  No textbook has everything you need to know about statistics
+\end{itemize}
+\par\vspace{0.4 cm}
+Let's start with a popular internet source for information, Wikipedia.  There is a page for the normal distribution, which you can access with the following link:
+\par\vspace{0.4 cm}
+For example, in the case of the \href{https://en.wikipedia.org/wiki/Normal_distribution}{The Normal Distribution}.
+\par\vspace{0.4 cm}
+The downside of using internet sources is that there are choices to be made in the definition of parameters of a probability distribution, and not all sources make the same choices.
+\par\vspace{0.4 cm}
+What is not up for debate is the fact that we need two parameters to fully specify a normal distribution.  The two most common ways to specify these are:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item The mean $\mu$ and the standard deviation $\sigma$
+\item The mean $\mu$ and the variance $\sigma^2$
+\end{itemize}
+\par\vspace{0.4 cm}
+These are equivalent because as the notation suggests, the variance is the square of the standard deviation.
+\par\vspace{0.5 cm}
+In mathematical statistics, it is usually more convenient to work the the variance, but in applied statistics variation is more commonly expressed as standard deviation.  So, you will encounter both, and you just have to be aware that variance is the square of standard deviation.  
+\par\vspace{0.5 cm}
+The term 'parameterization' refers to the choice of how to define the parameters for a probability distribution.  
+\par\vspace{0.4 cm}
+In the case of the normal distribution, we have two common parameterizations, one using the variance:
+\[
+ y\sim N(\mu,\sigma^2)\quad    -\infty<\mu<\infty,\quad 0<\sigma
+\vspace{0.4 cm}
+\]
+The squiggly line after $y$ is read "is distributed as".  The second common parameterization uses the standard deviation:
+\[
+ y\sim N(\mu,\sigma)\quad -\infty<\mu<\infty,\quad 0<\sigma
+\vspace{0.4 cm}
+\]
+Regardless of how we choose to define the parameters, the resulting distribution is the same.  The difference is only in the way we choose to specify the parameters.  
+\par\vspace{0.4 cm}
+Specifying that a normal distribution has a variance of $4$ is exactly the same as specifying that it has a standard deviation of $2$.
+\subsection*{Which parameterization does R use?}
+In modern science and statistics, very often the way we discover things is by simulating them with a computational experiment.
+\par\vspace{0.4 cm}
+We will attempt to discover which parameterization R uses with the following experiment:
+\par\vspace{0.3 cm}
+\begin{itemize} 
+\item Use the \texttt{rnorm(1000,0,10)} function to simulate a sample of 1000 values from a normal distribution
+\item Use the \texttt{sd()} function to compute the sample standard deviation
+\item Use the \texttt{var()} functin to compute the sample variance
+\item See which one is closest to 10, the parameter value we supplied.
+\end{itemize}
+\par\vspace{0.4 cm}
+If R uses the variance (like Wikipedia), the variance will be close to 10 (not exactly 10, because of sampling error), 
+and the standard deviation will be close to $\sqrt{10}$.
+\par\vspace{0.4 cm}
+If R uses the standard deviation as the second parameter, the variance will be close to 100 and the standard deviation will be close to 10.
+\par\vspace{0.3 cm}
+To perform the experiment, fill in the R code in the code blocks below.  
+\par\vspace{0.4 cm}\noindent
+Step 1:
+<<>>=
+# Generate a sample of 1000 normal random variables using rnorm(1000,0,10).  Assign the result the name y.
+@
+Step 2:
+<<>>=
+# compute the variance of y using the var() function
+@
+Step 3:
+<<>>=
+# compute the standard deviation of y using the sd() function
+@
+\par\vspace{0.4 cm}
+Which parameterization do you think R uses?
+\end{document}
