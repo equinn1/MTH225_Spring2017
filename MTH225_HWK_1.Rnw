@@ -88,4 +88,8 @@ Step 3:
 @
 \par\vspace{0.4 cm}
 Which parameterization do you think R uses?
+\par\vspace{0.4 cm}
+<<>>=
+Sys.info()[["user"]]
+@
 \end{document}
