@@ -2,45 +2,49 @@
 
 \begin{document}
 
-<<>>=
+<<>>=                                      #standard setup for Stan
 library(rstan)
 library(bayesplot)
-
-N = 30
-
-theta=0.4
-
-y = rbinom(N,1,theta)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
 @
 
-<<>>=
-modl="
-data {
-  int N;      //sample size
-  int y[N];   //data vector
-}
-parameters {
-  real<lower=0,upper=1> theta;   //probability of success
-}
-model {
-  theta ~ uniform(0,1);      //uniform prior for theta
-  y ~ bernoulli(theta);      //likelihood given theta
-}
-"
+<<>>=                                     #generate Bernoulli sample
+N = 30                                    #sample size is 30
+
+theta=0.4                                 #probability of success is 0.4
+
+y = rbinom(N,1,theta)                     #generate the sample
+y
 @
 
-<<>>=
-stanfit = stan(model_code=modl)
 
-print(stanfit)
+<<>>=
+stanfit = stan("Bernoulli.stan")         #call stan to fit the model
+
+print(stanfit)                           #print a summary of the results
 @
 
 <<>>=
 
-pd=extract(stanfit,permuted=FALSE)
+pd=extract(stanfit,permuted=FALSE)       #extract the posterior draw values
 
-str(pd)
+str(pd)                                  #show the structure of the posterior draw
 
-mcmc_dens_overlay(pd,pars='theta')
+mcmc_trace(pd,pars='theta')              #plot the mcmc trace (the "fuzzy caterpillar") 
+
+mcmc_dens_overlay(pd,pars='theta')       #plot the density for each of the four chains
+
+theta_draws <- pd[,1:4,1]                #extract just the draws for theta
+str(theta_draws)                         #show the structure
+
+quantile(theta_draws[,1],c(.025,.5,.975))   #compute percentiles for draw from chain 1
+quantile(theta_draws[,2],c(.025,.5,.975))   #compute percentiles for draw from chain 2
+quantile(theta_draws[,3],c(.025,.5,.975))   #compute percentiles for draw from chain 3
+quantile(theta_draws[,4],c(.025,.5,.975))   #compute percentiles for draw from chain 4
+@
+
+<<>>=
+print(get_stanmodel(stanfit))
 @
 \end{document}
