@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+
+\section*{The Beta Distribution}
+\subsection*{Background}
+Another very useful probability distribution is the beta. 
+\par\vspace{0.4 cm}
+Unlike the normal distribution, which takes values on $(-\infty,\infty)$, the beta distribution takes values on $[0,1]$, that is, values between zero and one.
+\par\vspace{0.4 cm}
+This makes the beta distribution a good candidate for modeling any random process that is confined to $[0,1]$.  Since parameters often represent probabilities, the beta will be a good candidate to model them.
+\par\vspace{0.4 cm}
+By using a scale factor, we can model any random process that takes values on a finite interval using the beta distribution.
+\par\vspace{0.4 cm}
+Another thing that makes the beta distribution useful is its flexibility: it can take a great variety of shapes, depending on the values of the two shape parameters, usually called $\alpha$ and $\beta$.
+\par\vspace{0.4 cm}
+There is a wikipedia page for the beta distribution, which you can access with the following link:
+\par\vspace{0.4 cm}
+\href{https://en.wikipedia.org/wiki/Beta_distribution}{The Beta Distribution}.
+\par\vspace{0.4 cm}
+While there is a great deal of technical information on this page, the one we will be most often concerned with is the mean.
+\par\vspace{0.4 cm}
+A more technical term for the mean of a random variable $Y$ is the \textbf{expected value} denoted by $E(Y)$.  
+\par\vspace{0.4 cm}
+Note that there is a simple formula for the expected value or mean of a beta distribution given the values of the shape parameters $\alpha$ and $\beta$:
+\[
+ E(Y) = \frac{\alpha}{\alpha+\beta}
+\vspace{0.4 cm}
+\]
+\par\vspace{0.4 cm}
+If R uses the variance (like Wikipedia), the variance will be close to 10 (not exactly 10, because of sampling error), 
+and the standard deviation will be close to $\sqrt{10}$.
+\par\vspace{0.4 cm}
+If R uses the standard deviation as the second parameter, the variance will be close to 100 and the standard deviation will be close to 10.
+\par\vspace{0.3 cm}
+To perform the experiment, fill in the R code in the code blocks below.  
+\par\vspace{0.4 cm}\noindent
+<<>>=
+library(ggplot2)
+N=10000                                     #set the sample size to 10000
+@
+
+If $\alpha=\beta=1$, we get a rectangular distribution:
+<<>>=
+alpha=1; beta=1;
+y_beta = rbeta(N,alpha,beta)               #simulate 1000 beta random variables
+df=data.frame(y_beta)                      #ggplot needs a data frame
+ggplot(df,aes(x=y_beta,fill=TRUE)) + geom_density(alpha=0.25)
+@
+
+If $\alpha=\beta=0.1$, we get a U-shaped distribution:
+<<>>=
+alpha=0.1; beta=0.1;
+y_beta = rbeta(N,alpha,beta)               #simulate 1000 beta random variables
+df=data.frame(y_beta)                      #ggplot needs a data frame
+ggplot(df,aes(x=y_beta,fill=TRUE)) + geom_density(alpha=0.25)
+@
+
+If $\alpha=\beta=40$, we get a distribution concentrated near 0.5:
+<<>>=
+alpha=40; beta=40;
+y_beta = rbeta(N,alpha,beta)               #simulate 1000 beta random variables
+df=data.frame(y_beta)                      #ggplot needs a data frame
+ggplot(df,aes(x=y_beta,fill=TRUE)) + geom_density(alpha=0.25)
+@
+Step 1:
+<<>>=
+# Generate a vector y_beta containing a sample of 10000 beta random variables which shape parameters alpha=2 and beta=4 and 
+# create a density plot
+@
+Step 2:
+<<>>=
+# compute the mean of y_beta
+@
+Step 3:
+<<>>=
+# compute the 10th and 90th percentiles of y_beta using the command  quantile(y_beta,c(.10,.90))
+@
+Step 4:
+<<>>=
+# compute the theoretical 10th and 90th percentiles of a beta distribution with alpna=20 and beta=40 with the following commands:
+#  qbeta(.10,2,4) 
+#  qbeta(.90,2,4)
+@
+How close are the sample percentiles to the theoretical values?
+<<>>=
+Sys.info()[["user"]]
+@
+\end{document}
