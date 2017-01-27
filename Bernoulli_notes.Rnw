@@ -1,0 +1,99 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=                                      #standard setup for Stan
+library(rstan)
+library(bayesplot)
+library(ggplot2)                           #load the libraries we will need
+library(reshape2)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+source("priorpost.R")                      #include MCMC and ggplot2 code
+@
+\section*{The Bernoulli Distribution}
+\subsection*{Definition}
+One of the simplest and most useful probabillity distributions is the \textbf{Bernoulli} distribution.
+\par\vspace{0.4 cm}
+The Bernoulli distribution models a data generating process with two outcomes, "success" and "failure".
+\par\vspace{0.4 cm}
+We define a \textbf{random variable} $Y$ by assigning the value $1$ to the outcome "success" and $0$ to "failure":
+\[
+P("success") = P(Y=1) = \theta\quad\mbox{and}\quad P("failure") = P(Y=0) = 1-\theta
+\vspace{0.4 cm}
+\]
+The parameter $\theta$ represents a probability, so it takes values in the interval from zero to one.  
+\par\vspace{0.4 cm}
+The Bernoulli distribution can be a good model for binary data, that is, data consisting of zeros and ones.
+\subsection*{Estimating $\theta$}
+The Bayesian paradigm for parameter estimation has two components:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item A probability distribution for the data called the \textbf{likelihood}
+\item A second probability distribution for the parameter $\theta$ called the \textbf{prior} distribution
+\end{itemize}
+\par\vspace{0.4 cm}
+The Bayesian estimation process combines the likelihood and the prior in an optimal way to obtain the \textbf{posterior} distribution, which is a revised distribution for $\theta$ that incorporates both the prior and the information in the data, as modeled by the likelihood.
+\subsection*{An Example}
+\subsubsection*{The Prior}
+For the prior, we will choose a beta distribution with parameters $\alpha=\beta=1$.  The prior is a model for our uncertainty about $\theta$.
+\par\vspace{0.4 cm}
+The beta(1,1) distribution gives equal likelihood to every value between $0$ and $1$, so the distribution is rectangular:
+<<>>=
+y = rbeta(100000,1,1)               #generate 100000 beta(1,1) random variables
+
+df=data.frame(y) 
+ggplot(df,aes(x=y, fill=TRUE)) + geom_density(alpha=0.25)
+@
+\subsubsection*{The Data}
+For this example, let's suppose that the data we observed two outcomes, and the values were $0$ for the first and $1$ for the second.  This means our data vector is:
+<<>>=                                     
+y = c(0,1)              #data vector
+y                       #list the data
+N = length(y)           #set a variable equal to the length of the data vector
+@
+\subsubsection*(Computing the Posterior)
+The final step is to use Stan to combine the prior and the data to produce the posterior, our revised distribution for $\theta$.
+<<>>=
+alpha=1                   #set the first shape parameter for the beta prior to 1            
+beta=1                    #set the second shape parameter for the beta prior to 1
+priorpost(y,alpha,beta)   #call our custom R function that uses Stan to generate a draw from the posterior and plot it with the prior
+@
+
+The posterior is a compromise between the information in the prior, and the information provided by the data.  
+\par\vspace{0.4 cm}
+In this case, the prior is neutral with regard to the value of $\theta$, but the data suggests it should be about $0.5$.
+\par\vspace{0.4 cm}
+The posterior, which combines the information in the prior and the data, makes values towards the middle of the interval $[0,1]$ more likely.
+\subsubsection*{Same Prior, Different Data}
+Now suppose instead that we observed two zeros, still with the beta(1,1) prior.  Let's see what the posterior looks like in this case:
+<<>>=
+y = c(0,0)              #data vector
+y                       #list the data
+priorpost(y,alpha,beta)
+@
+In this case, the once again the prior is neutral with regard to the value of $\theta$, but a value of theta closer to zero is more likely to produce the data.  In this case, the posterior distribution is skewed towards zero.
+\subsubsection*{Same Prior, Data All Ones}
+Now suppose instead that we observed two ones, still with the beta(1,1) prior.  Let's see what the posterior looks like now:
+<<>>=
+y = c(1,1)              #data vector
+y                       #list the data
+priorpost(y,alpha,beta)
+@
+In this case, the once again the prior is neutral with regard to the value of $\theta$, but a value of theta closer to one is more likely to produce the data.  In this case, the posterior distribution is skewed towards one.
+\section{Summary}
+This example illustrates the Bayesian parameter estimation process:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item Choose a prior distribution for $\theta$
+\item Choose a distribution model for the data that depends on $\theta$
+\item Observe some data
+\item Combine the prior and the data to produce an updated model for $\theta$, the posterior distribution.  
+\end{itemize}
+\par\vspace{0.4 cm}
+The Markov Chain Monte Carlo (MCMC) process does not produce a formula for the posterior distribution, but rather an array of values drawn from it.
+\par\vspace{0.4 cm}
+In Bayesian statistics, all inference is based on the posterior distribution.
+\par\vspace{0.4 cm}
+If we are using MCMC, our information on the posterior distribution of $\theta$ is in the form of an array of values drawn from it. 
+\end{document}
