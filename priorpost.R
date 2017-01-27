@@ -4,7 +4,8 @@ priorpost <- function(y,a,b){
   N<-length(y)
   alpha=a
   beta=b
-  stanfit = stan("Bernoulli_flexible.stan",iter=100000)         #call stan to fit the model
+  dl = list('N'=N, 'alpha'=alpha, 'beta'=beta, 'y'=y)
+  stanfit = stan("Bernoulli_flexible.stan",data=dl,iter=100000)         #call stan to fit the model
   pd=extract(stanfit)                      #extract the posterior draw values
   posterior = pd$theta
   prior = rbeta(length(posterior),alpha,beta)
