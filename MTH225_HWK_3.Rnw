@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\begin{document}
+\section*{Paramenter estimation: exponential distribution}
+\subsection*{Overview}
+In this exercise the goal is to produce point and interval estimates for the parameter $\theta$ of an exponential distribution from a sample of data.
+\subsection*{Reading the data}
+The data is in comma-separated-values (.csv) format, with a file name of \texttt{MTH225\_HWK\_3.csv}.
+In classical or \textit{frequentist} statistics, a parameter is considered to be a constant.
+\par\vspace{0.4 cm}
+The \texttt{read.csv()} function reads a .csv file and produces an R dataframe.
+\par\vspace{0.4 cm}
+If the first row of the data consists of column names, the only argument we need to supply is a path to the file name.
+\par\vspace{0.4 cm}
+<<>>=
+# Read MTH225_HWK_3.csv
+
+@
+\subsection*{Setting up the input to Stan}
+The next step is to set up the input variables for Stan.  We will be using the \texttt{exponential.stan} model file, which expects three inputs:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item  An integer $N$ giving the length of the data vector
+\item  An array of $y$ with $N$ elements giving the observed data values
+\item  A real number $prior\_max$ that gives the upper limit for the uniform distribution that is the prior for theta
+\end{itemize}
+\par\vspace{0.4 cm}
+<<>>=
+# Assign values to y, N, and prior_max
+
+@
+\subsection*{Calling Stan}
+<<>>=
+library(rstan)
+
+stanfit=stan("exponential.stan")
+
+print(stanfit)
+
+print(get_stanmodel(stanfit))
+@
+\subsection*{Postprocessing}
+Finally we process the posterior draw.  In this case, we want the mean and a 95\% confidence interval.
+<<>>=
+pd=extract(stanfit)
+
+theta_posterior = pd$theta
+
+                       #compute the point estimate as the mean of the posterior draw
+
+                       #compute a 95\% confidence interval using the quantile() function
+
+@
+
+<<>>=
+Sys.info()[["user"]]
+@
+\end{document}
