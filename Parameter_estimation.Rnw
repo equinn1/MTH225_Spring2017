@@ -31,7 +31,7 @@ As a prior, we will use a uniform distribution on $[0,1]$.
 \par\vspace{0.4 cm}
 The model file is written with a variable called \texttt{prior\_max} that supplies the upper limit of the range of the uniform distribution.  The lower limit is fixed at 0.
 <<>>=
-N=1000                     #set the sample size
+N=50                       #set the sample size
 theta=0.5                  #value of theta used to generate the data - normally we wouldn't know this
 y=rexp(N,theta)            #generate the exponentially distributed values
 prior_max=1                #upper limit for the prior
