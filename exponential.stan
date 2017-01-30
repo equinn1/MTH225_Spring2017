@@ -1,11 +1,14 @@
-//Estimate the probability of success in a Bernoulli distribution
+//Estimate the parameter of an exponential distribution
 data {
-  int<lower=0> y;   //y consists of N binary values (zeros and ones)
+  int<lower=1> N;   // sample size
+  vector[N] y;      // ovserved data values
+  real prior_max;   // upper limit for uniform prior
 }
 parameters {
-  real<lower=0> theta;  //parameter theta is constrained to be between 0 and 1
+  real<lower=0> theta;  //parameter theta is constrained to be positive
 }
 model {
-  theta ~ normal(0,100);          //beta(1,1) is a uniform prior: all values between 0 and 1 equally likely 
-  y ~ exponential(theta);       //Bernoulli likelihood given parameter theta
+  theta ~ uniform(0,prior_max); //uniform prior for theta 
+  y ~ exponential(theta);       //exponential likelihood given parameter theta
 }
+
