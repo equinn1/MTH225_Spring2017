@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\begin{document}
+\section*{Parameter estimation}
+\subsection*{The estimation process}
+In classical or \textit{frequentist} statistics, a parameter is considered to be a constant.
+\par\vspace{0.4 cm}
+In Bayesian statistics, parameters are considered to be random variables.
+\par\vspace{0.4 cm}
+The \textbf{estimation} process is as follows:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item  Collect some data.
+\item  Choose an appropriate distribution as a model for the data generating process.
+\item  Choose an appropriate prior distribution for the parameter(s) of the distribution.
+\item  Use Markov Chain Monte Carlo software such as Stan to generate a draw from the posterior distribution of the parameter(s). 
+\end{itemize}
+\par\vspace{0.4 cm}
+\subsection*{The exponential distribution}
+The exponential distribution is a single-parameter distribution that is useful for modeling survival times or time to failure of components.
+\par\vspace{0.4 cm}
+The parameter $\theta$ takes positive values.  The mean of an exponential distribution is $1/\mu$.
+\par\vspace{0.4 cm}
+We will generate 1,000 observations from an exponential distribution using the \texttt{rexp()} function.  
+\par\vspace{0.4 cm}
+The data will be generated with a parameter value of $0.5$.  
+\par\vspace{0.4 cm}
+The distribution for the data generating process will be exponential.
+\par\vspace{0.4 cm}
+As a prior, we will use a uniform distribution on $[0,1]$.  
+\par\vspace{0.4 cm}
+The model file is written with a variable called \texttt{prior\_max} that supplies the upper limit of the range of the uniform distribution.  The lower limit is fixed at 0.
+<<>>=
+N=1000                     #set the sample size
+theta=0.5                  #value of theta used to generate the data - normally we wouldn't know this
+y=rexp(N,theta)            #generate the exponentially distributed values
+prior_max=1                #upper limit for the prior
+@
+
+<<>>=                                      #standard setup for Stan
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+stanfit = stan("exponential.stan")         #call stan to fit the model
+
+print(stanfit)                           #print a summary of the results
+@
+\subsection*{Graph the prior and posterior distributions of $\theta$}
+<<>>=
+library(reshape2)
+pd=extract(stanfit)                                 #extract the posterior draw values
+
+str(pd)                                             #show the structure of the posterior draw
+
+theta_prior = runif(length(pd$theta),0,prior_max)   #simulate values from the prior distribution
+
+theta_posterior = pd$theta                          #extract values drawn from the posterior distribution
+
+pdata<- data.frame(theta_posterior,theta_prior)     #create a dataframe for ggplot2
+data = melt(pdata)                                  #convert to form for multiple graphs                                  
+
+p=ggplot(data,aes(x=value, fill=variable)) + geom_density(alpha=0.25)
+p
+@
+\subsection*{The point estimate of $\theta$}
+The point estimat for $\theta$ is just the mean of the posterior draw.
+
+<<>>=
+mean(theta_posterior)
+@
+This value should agree from the output of the \texttt{print(stanfit)} command.
+\par\vspace{0.4 cm}
+\subsection*{Interval estimate for $\theta$}
+The 95\% confidence interval (called a 'credible interval' in Bayesian statistics) is computed using the quantiles of the posterior draw.
+<<>>=
+quantile(theta_posterior,c(.025,.975))
+@
+These values should agree with the 2.5\% and 97.5\% values listed in the output of the \texttt{print(stanfit)} command.
+\par\vspace{0.4 cm}
+\subsection*{Print the stan model file}
+<<>>=
+print(get_stanmodel(stanfit))
+@
+\end{document}
