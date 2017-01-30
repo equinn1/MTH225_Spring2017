@@ -4,6 +4,10 @@
 \section*{Paramenter estimation: exponential distribution}
 \subsection*{Overview}
 In this exercise the goal is to produce point and interval estimates for the parameter $\theta$ of an exponential distribution from a sample of data.
+\subsection*{Prior information}
+We will suppose that the data are measurements of the time to failure of a mechanical component measured in years, and when asked the manufacturer could not supply an average time to failure, but did say that very few fail in the first year.
+\par\vspace{0.4 cm}
+With this information, we might start with the working assumption that the mean time to failure is greater than 1.  Since the parameter $\theta$ of an exponential distribution is the reciprocal of its mean, this means values of $\theta$ larger than one are unlikely.
 \subsection*{Reading the data}
 The data is in comma-separated-values (.csv) format, with a file name of \texttt{MTH225\_HWK\_3.csv}.
 In classical or \textit{frequentist} statistics, a parameter is considered to be a constant.
