@@ -47,4 +47,8 @@ quantile(theta_draws[,4],c(.025,.5,.975))   #compute percentiles for draw from c
 <<>>=
 print(get_stanmodel(stanfit))
 @
+
+<<>>=
+Sys.info()[["user"]]
+@
 \end{document}
