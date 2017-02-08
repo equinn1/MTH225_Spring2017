@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\begin{document}
+\section*{In-class exercise: Point estimate and confidence interval for a Bernoulli parameter}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Instructions}
+\par\vspace{0.3 cm}\noindent
+In this exercise we suppose we have rainfall measurements from the USHCN database for Amherst, MA.
+\par\vspace{0.3 cm}\noindent
+The data is in a file called \texttt{amherst\_rain.csv}.
+\par\vspace{0.3 cm}\noindent
+The task in this exercise is to use Stan to produce a point estimate and 95\% confidence interval for the probability of rain on a given day in Amherst, assuming a Bernoulli distribution is the model for the likelihood (the data generating process)
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item The data is in a file called \texttt{amherst\_rain.csv}.
+\item You can use the \texttt{Bernoulli.stan} model file.
+\item Use the prior that is coded in the model file.
+\end{itemize}
+\par\vspace{1 cm}
+What is the prior distribution specified in the model file?
+\par\vspace{1 cm}
+What is the point estimate of the parameter $\theta$?
+\par\vspace{1 cm}
+What is the lower limit of the 95\% confidence interval for $\theta$?
+\par\vspace{1 cm}
+What is the upper limit of the 95\% confidence interval for $\theta$?
+
+\end{document}
