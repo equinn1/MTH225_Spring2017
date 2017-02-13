@@ -1,0 +1,84 @@
+\documentclass{article}
+
+\begin{document}
+\section*{In-class exercise: Two sample normal}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Overview}
+\par\vspace{0.3 cm}\noindent
+In this exercise we suppose we have measurements of the moisture content in two types of grapes.
+\par\vspace{0.3 cm}\noindent
+We are interested in whether the moisture content of the two types differ.  
+\par\vspace{0.3 cm}
+We are also interested in whether the variability in moisture content, as measured by the standard deviation, is the same for both types.
+\par\vspace{0.3 cm}
+The assumption of equal standard deviations is required for the classical t-test, which is the frequentist approach to this problem. 
+\par\vspace{0.3 cm}
+Because we are using a Bayesian approach, we do not have to make this assumption.
+\par\vspace{0.3 cm}
+\subsection*{Instructions}
+\par\vspace{0.3 cm}
+As usual, start by bringing your copy of the \texttt{$\mbox{MTH225\_Spring2017}$} archive up to date.  
+\par\vspace{0.3 cm}
+Open a command prompt or terminal window, and use the \texttt{cd} command to change to the \texttt{$\mbox{MTH225\_Spring2017}$} subdirectory.  Then type the command:
+\par\vspace{0.3 cm}\noindent
+\texttt{git pull origin master}
+\par\vspace{0.3 cm}\noindent
+The pull operation should download the following files:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item The R-knitr code: \texttt{$\mbox{MTH225-4\_normal\_two\_sample.Rnw}$}  
+\item The data in csv format: \texttt{$\mbox{MTH225-4\_normal\_two\_sample.csv}$} 
+\item The STAN model file \texttt{$\mbox{two\_sample\_normal.stan}$}
+\end{itemize}
+\subsection*{Modifying the files for this problem}
+\par\vspace{0.3 cm}\noindent
+Unlike a rigged textbook problem, in a realistic situation you will need to write the R-knitr code and STAN model file.
+\par\vspace{0.3 cm}
+Experienced programmers seldom write anything from scratch, instead taking code written for a similar task and tweaking it for the task at hand.
+\par\vspace{0.3 cm}
+In this exercise, we will assume that you have a working R-knitr and STAN model file from a similar analysis that we will modify for this problem.
+\par\vspace{0.3 cm}
+The following changes to the R-knitr file are likely to be required:
+\par\vspace{0.3 cm}
+\begin{itemize}
+\item The input file name will probably not match the one we have
+\item The column names might not match the names from the earlier analysis
+\end{itemize}
+\par\vspace{0.3 cm}
+\subsection*{Modifying the .Rnw file}
+The first change just amounts to changing the file name in the \texttt{.Rnw} file.
+\par\vspace{0.3 cm}
+The second change requires that we discover the column names in the .csv file.  There are a number of ways we could do this, but perhaps the simplest is to print the first part of the file.  From a command prompt or terminal window, if you are not already in the \texttt{$\mbox{MTH225\_Fall2016}$} subdirectory, use the \texttt{cd} command to change to it.
+\par\vspace{0.3 cm}
+Once in the directory, enter the command:
+\par\vspace{0.3 cm}\noindent
+\texttt{$\mbox{more two\_sample\_normal.csv}$}
+\par\vspace{0.3 cm}
+The column names appear in the first line of the dataset listing.
+\par\vspace{0.3 cm}
+You will need to modify the \texttt{.Rnw} file to replace the column name(s) originally in the program with the column names from \texttt{$\mbox{MTH225-4\_normal\_two\_sample.Rnw}$}
+\par\vspace{0.3 cm}
+\subsection*{Modifying the STAN model file}
+Once the \texttt{.Rnw} file has been modified, you will need to modify the STAN model file by changing the names that appear in the \texttt{data} block to match the column names in our dataset.
+\par\vspace{0.3 cm}
+Additionally, we will assume that we want to use a normal(50,20) prior for \texttt{mu} and a cauchy(0,10) prior for \texttt{sigma}.  
+\par\vspace{0.3 cm}
+These priors appear in the \texttt{model} block.  If the values in the file to begin with are different, we need to change them.
+\subsection*{Questions}
+Once you have made the necessary changes, use the \textit{Compile PDF} button to run the model, and use the output to answer the following questions:
+\par\vspace{0.3 cm}\noindent
+1) What are the point estmates of the mu values for the two groups?
+\par\vspace{2 cm}\noindent
+2) What are the upper and lower 95\% credible intervals for mu[1] and mu[2]?
+\par\vspace{2 cm}\noindent
+3) One way to decide if there is a significant difference in the means for the two types is to compute diff\_mu, the difference between mu[1] and mu[2], from the posterior draw, and see if the 95\% credible interval for it contains zero.  If it does, we say that based on this data there is no strong evidence that moisture contents of the two types differ.  If it does not contain zero, we say that the data provides evidence that the types differ on moisture content.  Which conclusion do we draw from our output? 
+\par\vspace{2 cm}\noindent
+4) We also want to decide if there is a significant difference in variablility for the two types.  For this we compute diff\_sigma, the difference between sigma[1] and sigma[2], from the posterior draw, and see if the 95\% credible interval for it contains zero.  If it does, we say that based on this data there is no strong evidence that the variation in moisture content is different for the two types. If it does not, we say that the data provides evidence that variability of the moisture content differs for the two types. What is the conclusion in this case.
+\end{document}
