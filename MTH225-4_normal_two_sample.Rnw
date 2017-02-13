@@ -4,10 +4,10 @@
 \section*{Assignment: Two Normal samples}
 \par\vspace{0.3 cm}
 <<>>=
-df<-read.csv("MTH225-3_Bernoulli_two_sample.csv")  #read the csv file with the data
+df<-read.csv("MTH225-4_normal_two_sample.csv")  #read the csv file with the data
 str(df)                                         #show the structure of the data frame
-y<-df$y                                         #select a column to use
-group<-df$group                                 #site number
+y<-df$moisture                                  #select a column to use
+group<-df$type                                  #group identifier
 N<-length(y)                                    #number of observations in data
 @
 Call STAN
