@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df = read.csv("single_factor_anova_two_levels.csv")
+N = nrow(df)
+y = df$y
+lvl = df$lvl
+@
+
+Call STAN
+
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("single_factor_anova_two_levels.stan")       #call STAN using defaults
+print(get_stanmodel(stanfit))
+print(stanfit)
+@
+
+\end{document}
