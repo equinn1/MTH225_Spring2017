@@ -1,0 +1,40 @@
+\documentclass{article}
+
+\begin{document}
+
+\section*{In-class exercise: Single factor ANOVA with three levels}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+In this exercise we will run the Bayesian equivalent of a single-factor ANOVA with three levels.
+\par\vspace{0.3 cm}\noindent
+The source program for this exercise is:
+\par\vspace{0.3 cm}\noindent
+\texttt{MTH225\_single\_factor\_anova\_three\_levels.Rnw}
+\par\vspace{0.3 cm}\noindent
+The model parameters and their priors are:
+\par\vspace{0.3 cm}\noindent
+\begin{itemize}
+\item $\alpha_1$ normal (0,20)
+\item $\alpha_1$ normal (0,20)
+\item $\alpha_1$ normal (0,20)
+\item Common $\sigma$  value for all levels: half-cauchy (0,10)
+\end{itemize}
+\par\vspace{1 cm}\noindent
+\textbf{1)}  What is the point estimate of $\alpha_1$, the mean for level 1?
+\par\vspace{1 cm}\noindent
+\textbf{2)}  What is the point estimate of $\alpha_2$, the mean for level 2?
+\par\vspace{1 cm}\noindent
+\textbf{3)}  What is the point estimate of $\alpha_3$, the mean for level 3?
+\par\vspace{1 cm}\noindent
+\textbf{4)}  What is the probability that $\alpha_2 > \alpha_1$?
+\par\vspace{1 cm}\noindent
+\textbf{5)}  What is the probability that $\alpha_3 > \alpha_2$?
+\par\vspace{1 cm}\noindent
+\textbf{6)}  What is the probability that $\alpha_3 > \alpha_1$?
+\end{document}

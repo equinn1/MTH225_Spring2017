@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df = read.csv("MTH225_single_factor_anova_three_levels.csv")
+N = nrow(df)
+y = df$y
+lvl = df$lvl
+@
+
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("single_factor_anova_three_levels.stan")       #call STAN using defaults
+print(get_stanmodel(stanfit))
+print(stanfit)
+@
+
+<<>>=
+pd <- extract(stanfit)
+str(pd)
+mean(pd$alpha[,2]-pd$alpha[,1]>0)
+mean(pd$alpha[,3]-pd$alpha[,2]>0)
+mean(pd$alpha[,3]-pd$alpha[,1]>0)
+@
+
+<<>>=
+plot(density(pd$alpha[,1]),xlim=c(-5,30),ylim=c(0,.17),col="black",lwd=2.5,
+xlab="Value",ylab="Density",main="Posterior density plots for alpha[1], alpha[2], alpha[3]")
+lines(density(pd$alpha[,2]),col="red",lwd=2.5)
+lines(density(pd$alpha[,3]),col="blue",lwd=2.5)
+@
+\end{document}
