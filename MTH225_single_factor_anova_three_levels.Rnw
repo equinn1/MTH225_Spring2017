@@ -32,4 +32,50 @@ xlab="Value",ylab="Density",main="Posterior density plots for alpha[1], alpha[2]
 lines(density(pd$alpha[,2]),col="red",lwd=2.5)
 lines(density(pd$alpha[,3]),col="blue",lwd=2.5)
 @
+
+The prior distributions for $\alpha_1$, $\alpha_2$, and $\alpha_3$ are $N(0,20)$.
+\par\vspace{0.4 cm}
+Let's look at the prior and posterior densities to see how they differ:
+
+<<>>=
+yp = rnorm(length(pd$alpha),0,20)
+plot(density(pd$alpha[,1]),xlim=c(-40,40),ylim=c(0,.17),col="black",lwd=2.5,
+xlab="Value",ylab="Density",main="Prior and Posterior density plots for alpha[1], alpha[2], alpha[3]")
+lines(density(pd$alpha[,2]),col="red",lwd=2.5)
+lines(density(pd$alpha[,3]),col="blue",lwd=2.5)
+lines(density(yp),col="green",lwd=2.5)
+@
+
+The prior density for $\sigma$, the residual standard error, is cauchy(0,10).
+<<>>=
+yp = abs(rcauchy(length(pd$sigma),0,10))    #half-cauchy
+plot(density(pd$sigma),xlim=c(0,200),ylim=c(0,.4),col="black",lwd=2.5,
+xlab="Value",ylab="Density",main="Prior and Posterior density plots for sigma")
+lines(density(yp),col="green",lwd=2.5)
+@
+
+Finally, in the \texttt{generated quantities} block we computed three pairs of differences:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item \texttt{d12} is $\alpha_1-\alpha_2$
+\item \texttt{d13} is $\alpha_1-\alpha_3$
+\item \texttt{d23} is $\alpha_2-\alpha_3$
+\end{itemize}
+\par\vspace{0.4 cm}
+These are a convenience for deciding how likely it is that these differences are zero.
+\par\vspace{0.4 cm}
+We will plot these functions of the posterior draw, and see where they are centered.
+Let's look at the prior and posterior densities to see how they differ:
+
+<<>>=
+plot(density(pd$d12),xlim=c(-20,20),ylim=c(0,.17),col="black",lwd=2.5,
+xlab="Value",ylab="Density",main="Posterior density plots for d12, d13, and d23")
+lines(density(pd$d13),col="red",lwd=2.5)
+lines(density(pd$d23),col="blue",lwd=2.5)
+@
+
+Based on the posterior draw (as all Bayesian inference is), the estimated probability of each of these differences being greater than zero is the area under its density curve to the right of zero, that is,
+from zero to infinity.  
+\par\vspace{0.4 cm}
+We previously computed these, and these graphs appear to be consistent with the values we computed.
 \end{document}
