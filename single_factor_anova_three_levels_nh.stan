@@ -23,7 +23,16 @@ generated quantities {
   real d13;
   real d23;
   
+  real s12;
+  real s13;
+  real s23;
+  
   d12 = alpha[1]-alpha[2];    //sample difference between alpha1 and alpha2
   d13 = alpha[1]-alpha[3];    //sample difference between alpha1 and alpha3
   d23 = alpha[2]-alpha[3];    //sample difference between alpha2 and alpha3
+  
+  
+  s12 = sigma[1]-sigma[2];    //sample difference between sigma1 and sigma2
+  s13 = sigma[1]-sigma[3];    //sample difference between sigma1 and sigma3
+  s23 = sigma[2]-sigma[3];    //sample difference between sigma2 and sigma3
 }
