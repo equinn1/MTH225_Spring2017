@@ -1,0 +1,36 @@
+\documentclass{article}
+
+\begin{document}
+
+\section*{Single factor ANOVA with three levels - unequal standard deviations}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.4 cm}
+In this exerces we analyze data using a single-factor ANOVA model with four levels, allowing for different standard deviations at each level.
+\par\vspace{0.4 cm}
+Our model for the data generating process is:
+\[
+ y_{ij} = \alpha_j + e_{ij}\quad j = 1,2,3,4
+\vspace{0.3 cm}
+\]
+\par\vspace{0.4 cm}
+The data for this exercise is in:
+\par\vspace{0.4 cm}\noindent
+\texttt{MTH225-6\_IC3.csv}
+\par\vspace{0.4 cm}\noindent
+The Stan model file for this exercise can be patterned after:
+\par\vspace{0.4 cm}\noindent
+\texttt{single\_factor\_anova\_n\_levels\_nh.stan}
+\par\vspace{0.4 cm}\noindent
+Note that an additional variable, the number of levels, has to be provided.  Refer to the model file for the correct name.
+\subsection*{Questions}
+\par\vspace{0.4 cm}\noindent
+\textbf{1)} Which, if any, of the parameters $\alpha_1$, $\alpha_2$, $\alpha_3$, and $\alpha_4$ are significantly different?
+\par\vspace{2 cm}\noindent
+\textbf{2)}  Which, if any, of the parameters $\sigma_1$, $\sigma_2$, $\sigma_3$, and $\sigma_4$ are significantly different?
+\end{document}
