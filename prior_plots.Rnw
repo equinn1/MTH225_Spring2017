@@ -1,0 +1,15 @@
+\documentclass{article}
+
+\begin{document}
+\section*{Common Priors}
+\subsection*{Normal $0,\sigma$}
+<<>>= 
+sigma = 100
+N =10000
+y =rnorm(N,0,sigma)
+plot(density(y))
+summary(y)
+@
+
+
+\end{document}
