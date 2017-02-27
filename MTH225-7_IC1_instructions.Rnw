@@ -1,0 +1,48 @@
+\documentclass{article}
+
+\begin{document}
+
+\section*{Simple regression}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.4 cm}
+In this exerces we analyze the relationship between the weight of a vehicle and its gas mileage.
+\par\vspace{0.4 cm}
+The source is the EPA mileage data, which is in:
+\par\vspace{0.4 cm}
+\texttt{EPA\_mileage.Rdata}
+\par\vspace{0.4 cm}
+The extension \texttt{.Rdata} tells us that this is an R binary file, which we read with the \texttt{load()} function, i.e.,
+\par\vspace{0.4 cm}
+\texttt{load("EPA\_mileage.Rdata")}
+\vspace{0.3 cm}
+\par\vspace{0.4 cm}
+Once you have loaded the file, use the \texttt{ls()} command to see the name of the data frame that was loaded.
+\par\vspace{0.4 cm}\noindent
+In this data frame, the column \texttt{mpg} contains the gas mileage, and \texttt{etw} contains the vehicle weight in pounds.
+\par\vspace{0.4 cm}\noindent
+You can use the Stan model file \texttt{simple\_regression.stan}
+\par\vspace{0.4 cm}\noindent
+We can get a more easily interpretable coefficient by scaling the weight to be in units of 1,000 pounds:
+\par\vspace{0.4 cm}\noindent
+\texttt{x = epa\$etw/1000}
+\par\vspace{0.4 cm}\noindent
+\subsection*{Questions}
+\par\vspace{0.4 cm}\noindent
+\textbf{1)} How would you interpret the slope of the regression line?
+\par\vspace{2 cm}\noindent
+\textbf{2)}  How would you interpret the intercept?
+\par\vspace{2 cm}\noindent
+\textbf{3)}  Compute a 95\% confidence interval for the predicted average gas mileage of 4500 pound vehicles. Hint: Use the posterior draw to calculate 
+\par\vspace{0.4 cm}\noindent
+\texttt{pd\$beta[,1]+4.5*pd\$beta[,2]}
+\par\vspace{2 cm}\noindent
+\textbf{4)}  Compute a 95\% confidence interval for the predicted gas mileage of an individual 4500 pound vehicle. Hint: Use the posterior draw to calculate 
+\par\vspace{0.4 cm}\noindent
+\texttt{pd\$beta[,1]+4.5*pd\$beta[,2]+rnorm(4000,0,pd\$sigma)}
+\end{document}
