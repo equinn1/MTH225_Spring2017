@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+load("EPA_mileage.Rdata")
+ls()
+str(epa)
+
+#epa<-epa[1:300,]
+@
+
+<<>>=
+y<-epa$mpg
+x1<-epa$etw/1000
+x2<-epa$rhp/100
+N<-nrow(epa)
+@
+
+
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+
+stanfile <- "regression_two_predictors.stan"
+
+stanfit <- stan(stanfile)
+
+print(get_stanmodel(stanfit))
+print(stanfit)
+@
+
+<<>>=
+pd <- extract(stanfit)
+mean(pd$beta[,2])
+
+q3<-pd$beta[,1]+4.5*pd$beta[,2]+2.5*pd$beta[,3]
+q4<-pd$beta[,1]+5.5*pd$beta[,2]+4*pd$beta[,3]
+mpg4500<-pd$beta[,1]+4.5*pd$beta[,2]+rnorm(length(pd$beta[,1]),0,pd$sigma)
+quantile(q3,c(.025,.5,.975))
+quantile(q4,c(.025,.5,.975))
+
+@
+
+\end{document}
