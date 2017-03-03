@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\begin{document}
+
+\section*{Multiple regression}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.4 cm}
+In this exerces we analyze the relationship between the weight, engine horsepower, and cubic inches displacement of a vehicle and its gas mileage.
+\par\vspace{0.4 cm}
+The source is the EPA mileage data, which is in:
+\par\vspace{0.4 cm}
+\texttt{EPA\_mileage.Rdata}
+\par\vspace{0.4 cm}
+The extension \texttt{.Rdata} tells us that this is an R binary file, which we read with the \texttt{load()} function, i.e.,
+\par\vspace{0.4 cm}
+\texttt{load("EPA\_mileage.Rdata")}
+\vspace{0.3 cm}
+\par\vspace{0.4 cm}
+Once you have loaded the file, use the \texttt{ls()} command to see the name of the data frame that was loaded.
+\par\vspace{0.4 cm}\noindent
+In this data frame, the column \texttt{mpg} contains the gas mileage, \texttt{cid} contains the engine displacement, \texttt{rhp} contains the engine horsepower, and \texttt{etw} contains the vehicle weight in pounds.
+\par\vspace{0.4 cm}\noindent
+You can use the Stan model file \texttt{regression\_two\_predictors.stan}, or write your own using it as a template if you want to add generated quantities.
+\par\vspace{0.4 cm}\noindent
+As before we can get a more easily interpretable coefficient by scaling the weight to be in units of 1,000 pounds. 
+\par\vspace{0.4 cm}\noindent
+You might consider scaling horsepower into units of 100, which gives both independent variables roughly the same scale.
+\par\vspace{0.4 cm}\noindent
+\subsection*{Questions}
+\par\vspace{0.4 cm}\noindent
+\textbf{1)} How would you interpret the coefficients of the regression line?
+\par\vspace{2 cm}\noindent
+\textbf{2)}  How would you interpret the intercept?
+\par\vspace{2 cm}\noindent
+\textbf{3)}  Compute a 95\% confidence interval for the reduction in mpg for each 100 cubic inches of engine displacement. 
+\par\vspace{2 cm}\noindent
+\textbf{4)}  Compute a 95\% confidence interval for the reduction in mpg for each 1,000 pounds of weight. 
+\par\vspace{2 cm}\noindent
+\textbf{5)}  Compute a 95\% confidence interval for the reduction in mpg for each 100 horsepower. 
+\par\vspace{0.4 cm}\noindent
+\end{document}
