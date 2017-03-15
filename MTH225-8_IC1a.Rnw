@@ -1,0 +1,67 @@
+\documentclass{article}
+
+\begin{document}
+\section*{MTH225-8 In-class exercise 1: Covariance analysis}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\subsection*{Overview}
+\par\vspace{1 cm}\noindent
+Modify the file \texttt{week8\_IC1\_covariance\_example.Rnw} to use the column \texttt{C.H} (city or highway) of the \texttt{epa} data frame instead of \texttt{car.truck} (car or truck)
+\par\vspace{0.3 cm}
+Our predictors will be:
+
+\begin{itemize}
+\item vehicle weight in units of 1,000 pounds 
+\item the \texttt{C.H} variable (converted to 0 or 1 for STAN)
+\end{itemize}
+\par\vspace{1 cm}
+Start with the Rstudio and STAN model files \texttt{week8\_IC1\_covariance\_example.Rnw} and \texttt{week8\_IC1\_covariance\_example.stan}.
+\subsection*{Instructions for modifying the Rstudio (.Rnw) file}
+Starting with the .Rnw file from the example,
+\par\vspace{0.5 cm}
+
+\begin{itemize}
+\item  Save a copy of \texttt{week8\_IC1\_covariance\_example.Rnw} with the name \texttt{week8\_IC1\_example.Rnw}
+\item  Save a copy of the \texttt{week8\_IC1\_covariance\_example.stan} with the name \texttt{week8\_IC1.stan}
+\item  Replace the code for the car or truck variable \texttt{car.truck} with code to use the variable \texttt{C.H} (which takes values 'C' and 'H')
+\item  Modify the parameter names in the stan file to be \texttt{city} and \texttt{highway}.
+\end{itemize}
+\par\vspace{0.5 cm}
+
+\subsection*{Instructions for modifying the STAN model (.stan) file}
+starting with \texttt{week8\_IC1\_covariance\_example.stan},
+\subsubsection*{data block}
+\begin{itemize}
+\item Change the variable names to match the new variable names in the .Rnw file. 
+\end{itemize}
+\par\vspace{0.5 cm}
+
+\subsubsection*{parameters block}
+\begin{itemize}
+\item Replace the parameters \texttt{car} and \texttt{truck} with \texttt{city} and \texttt{highway}.  
+\end{itemize}
+\par\vspace{0.5 cm}
+\subsubsection*{model block}
+\begin{itemize}
+\item Change the variable names the same way as in the parameters block. 
+\end{itemize}
+\par\vspace{0.5 cm}
+\subsubsection*{generated quantities}
+\begin{itemize}
+\item Add a generated quantities block at the end of the STAN file.
+\item Define a \texttt{real} variable called \texttt{diff}.
+\item Assign the value \texttt{highway-city} to \texttt{diff}
+\end{itemize}
+\par\vspace{0.5 cm}
+\subsection*{Analyzing the output}
+After you run the program, use the output to answer the following questions:
+\par\vspace{0.5 cm}
+Does the 95\% credible interval for \texttt{diff} include zero?
+\par\vspace{0.5 cm}
+How would you interpret the value of the parameter beta?
+\end{document}
