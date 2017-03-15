@@ -64,4 +64,6 @@ After you run the program, use the output to answer the following questions:
 Does the 95\% credible interval for \texttt{diff} include zero?
 \par\vspace{0.5 cm}
 How would you interpret the value of the parameter beta?
+\par\vspace{0.5 cm}
+How would you interpret the values of the parameters 'city' and 'highway'?
 \end{document}
