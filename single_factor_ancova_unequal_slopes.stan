@@ -12,12 +12,12 @@ parameters {
 }
 model {
   int j;
-  alpha ~ normal(0,20);         //normal priors for two intercepts
-  beta  ~ normal(0,20);         //normal prior for common slope
-  sigma ~ cauchy(0,10);         //half-cauchy prior for error standard deviation 
+  alpha   ~ normal(0,20);         //normal priors for two intercepts
+  beta    ~ normal(0,20);         //normal prior for common slope
+  sigma_e ~ cauchy(0,10);         //half-cauchy prior for error standard deviation 
   
   for (i in 1:N){                   //loop through y values
-    j<-level[i];
+    j = level[i];
     y[i] ~ normal(alpha[j]+beta[j]*x[i],sigma_e);  //y[j] has normal likelihood with mean alpha[j]+beta[j]*x[i] and std deviation sigma
   }
 }
@@ -25,6 +25,6 @@ generated quantities {
   real d12a;
   real d12b;
   
-  d12a<-alpha[1]-alpha[2];    //sample difference between two intercepts
-  d12b<-beta[1]-beta[2];      //sample difference between two slopes
+  d12a = alpha[1]-alpha[2];    //sample difference between two intercepts
+  d12b = beta[1]-beta[2];      //sample difference between two slopes
 }

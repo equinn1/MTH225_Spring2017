@@ -1,0 +1,41 @@
+\documentclass{article}
+
+\begin{document}
+\section*{MTH225-8 In-class exercise 2: Covariance analysis with non-parallel regression lines}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\subsection*{Overview}
+\par\vspace{1 cm}\noindent
+Modify the file from Wednesday's exercise to allow separate slopes by level (i.e., your model should have two beta parameters, and the likelihood part of the model block should be modified to take this into account.)
+\par\vspace{0.3 cm}
+Our predictors will be:
+\begin{itemize}
+\item vehicle weight in units of 1,000 pounds 
+\item the \texttt{car.truck} variable  (car or truck, converted to 0 or 1 for STAN)
+\end{itemize}
+\par\vspace{0.5 cm}
+We are interested in comparing the mileage of a car and truck when both weigh 4500 pounds. 
+\par\vspace{0.5 cm}
+Code a generated quantities block that:
+\begin{itemize}
+\item Defines a real variable called \texttt{diff}
+\item Assigns the difference between the predicted values for cars and trucks weighing 4500 pounds.
+\end{itemize}
+\subsection*{Analyzing the output}
+After you run the program, use the output to answer the following questions:
+\par\vspace{0.5 cm}
+Does the 95\% credible interval for \texttt{diff} include zero?
+\par\vspace{0.5 cm}
+How would you interpret the value of the parameters car and truck?
+\par\vspace{0.5 cm}
+How would you interpret the value of the parameters beta(car) and beta(truck)?
+\par\vspace{0.5 cm}
+Find a point estimate and 95\% confidence interval for the difference in the predicted \textbf{average} mpg between a car and a truck if both weigh 2500 pounds.
+\par\vspace{0.5 cm}
+Find a point estimate and 95\% confidence interval for the difference in the predicted \textbf{average} mpg between a car and a truck if both weigh 5500 pounds.
+\end{document}

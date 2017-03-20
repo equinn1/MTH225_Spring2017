@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\begin{document}
+Week8 IC1 example
+<<>>=
+load("../../Spring2016/MTH225_Spring2016/EPA_mileage.Rdata")
+str(epa)
+@
+
+<<>>=
+cartruck<-as.numeric(epa$car.truck)  #city or highway
+weight  <-epa$etw/1000          #etw has vehicle weight
+N       <-nrow(epa)             #number of observations
+mpg<-epa$mpg
+
+y=mpg
+level=cartruck
+x=weight
+@
+Ordinary least squares model
+<<>>=
+lm2<-lm(mpg~epa$car.truck*weight)
+summary(lm2)
+fv<-lm2$fitted.values
+plot(fv~weight)
+@
+Call STAN for Bayesian model
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("single_factor_ancova_unequal_slopes.stan")     #call STAN using defaults
+print(stanfit)
+
+pd<-extract(stanfit)
+sum(pd$car>pd$truck)/4000
+@
+Launch shinystan
+<<>>=
+library(shinystan)                                   #launch shinystan
+launch_shinystan(stanfit)                            
+@
+
+\end{document}
