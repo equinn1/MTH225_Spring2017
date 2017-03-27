@@ -1,0 +1,40 @@
+\documentclass{article}
+
+\begin{document}
+
+\section*{Two-factor ANOVA with interaction (cell mean model)}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.4 cm}
+In this exercise we analyze the EPA mileage data using a two-factor ANOVA "with interaction".
+\par\vspace{0.4 cm}
+Saying "with interaction" means that we do not assume that the difference between levels of factor 1 is the same at all levels of factor 2. 
+\par\vspace{0.4 cm}
+Actually, in the "without interaction" model, we forced the differences between levels of factor 1 to be the same at all levels of factor 2.
+\par\vspace{0.4 cm}
+The example R code is in:
+\par\vspace{0.4 cm}
+\texttt{load("two\_factor\_ANOVA\_with\_interaction\_example.Rnw")}
+\vspace{0.3 cm}
+\par\vspace{0.4 cm}
+
+\par\vspace{0.4 cm}\noindent
+\subsection*{Questions}
+\par\vspace{0.4 cm}\noindent
+\textbf{1)} How would you interpret the parameter \texttt{mu[1]}?
+\par\vspace{2 cm}\noindent
+\textbf{2)} How would you interpret the parameter \texttt{mu[2]}?
+\par\vspace{2 cm}\noindent
+\textbf{3)} How would you interpret the parameter \texttt{mu[3]}?
+\par\vspace{2 cm}\noindent
+\textbf{4)} How would you interpret the parameter \texttt{mu[4]}?
+\par\vspace{2 cm}\noindent
+\textbf{5)} How would you interpret the parameter \texttt{d11\_12}?
+\par\vspace{2 cm}\noindent
+\textbf{6)}  Based on this data, estimate the probability that the difference between cars and trucks is smaller in the city that it is on the highway. 
+\end{document}

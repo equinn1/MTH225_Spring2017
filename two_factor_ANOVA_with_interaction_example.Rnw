@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+load("EPA_mileage.Rdata")
+str(epa)
+
+y=epa$mpg
+level1 = as.numeric(epa$C.H)
+level2 = as.numeric(epa$car.truck)
+N=nrow(epa)
+
+@
+
+<<>>=
+library(ggplot2)
+ggplot(data = epa, aes(x = C.H, y = mpg)) + 
+  geom_boxplot(aes(fill = car.truck), width = 0.8) + theme_bw()
+@
+
+Call STAN for Bayesian model
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("MTH225-10_IC1.stan")     #call STAN using defaults
+print(stanfit)
+print(get_stanmodel(stanfit))
+@
+
+<<>>=
+library(shinystan)
+#launch_shinystan(stanfit)
+@
+
+<<>>=
+pd<-extract(stanfit)
+
+car_city      = pd$mu[,1]
+truck_city    = pd$mu[,2]
+car_hwy       = pd$mu[,3]
+truck_hwy     = pd$mu[,4]
+  
+quantile(car_city,c(.025,.5,.975))
+quantile(car_hwy,c(.025,.5,.975))
+quantile(truck_city,c(.025,.5,.975))
+quantile(truck_hwy,c(.025,.5,.975))
+
+#Compute the probability that the difference between cars and trucks is smaller for city 
+
+mean(pd$d11_21 < pd$d12_22)
+@
+
+\end{document}
