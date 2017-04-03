@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\begin{document}
+\section*{In-class exercise: Logistic regression}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Overview}
+\par\vspace{0.3 cm}\noindent
+In this exercise we suppose we model the number of days with measurable rainfall in a month at the Amherst Massachusetts weather station using monthly records from 1900 through 1992 in \texttt{logistic1.csv} 
+\par\vspace{0.3 cm}\noindent
+We model the number of days with measurable rainfall in a month using a bionomial distribution with the number of trials $n$ equal to the number of days in the month, and probability of success $p$ that depends on time through a regression model.   
+\par\vspace{0.3 cm}\noindent
+\[
+y \sim \mbox{binomial(n,p)}
+\vspace{0.3 cm}
+\]
+The probability of measurable rainfall is represented using a \textit{logit} transform, which greatly improves the numerical stability of the regression model.  The logit transform is:
+\[
+\mbox{logit}(p) = \ln\left(\frac{p}{1-p}\right)
+\vspace{0.3 cm}
+\]
+This function maps values in the interval $(0,1)$ to the interval $(-\infty,\infty)$, and its inverse
+\[
+\mbox{logit}^{-1}(z) = \frac{1}{1+e^{-z}}
+\vspace{0.3 cm}
+\]
+maps $(-\infty,\infty)$ into $(0,1)$.  Our regression model is written in terms of $z$,
+\[
+z_i = \beta_0 + \beta_1x_i
+\vspace{0.3 cm}
+\]
+STAN has a built-in likelihood function called \texttt{binomial\_logit} that automatically does the transform from $z$ to $p$ for the binomial likelihood.  The line that specifies this in the model statement would look like this:
+\[
+\texttt{y[i] $\sim$ binomial\_logit(n[i],beta0+beta1*x[i]);}
+\vspace{0.3 cm}
+\]
+It is generally a good idea to center the values of the independent variable $x$ so that they has a mean of zero, and scale them so that the range is fairly compact.
+\par\vspace{0.3 cm}\noindent
+A reasonable choice in this case is, for year $y$ and month $m$,
+\[
+x = \frac{12(y-1947)+m}{279}
+\vspace{0.3 cm}
+\]
+For this data, this formula produces values between $-2$ and $+2$.  The $x$ column contains values computed from the year and month column using this formula.
+\par\vspace{0.3 cm}
+\subsection*{Instructions}
+\par\vspace{0.3 cm}
+As usual, start by bringing your copy of the \texttt{$\mbox{MTH225\_Fall2016}$} archive up to date.  
+\par\vspace{0.3 cm}
+Open a command prompt or terminal window, and use the \texttt{cd} command to change to the \texttt{$\mbox{MTH225\_Fall2016}$} subdirectory.  Then type the command:
+\par\vspace{0.3 cm}\noindent
+\texttt{git pull origin master}
+\par\vspace{0.3 cm}\noindent
+The pull operation should download the following files:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item The R-knitr code: \texttt{MTH225-11\_logistic\_regression.Rnw}  
+\item The data in Rdata format: \texttt{logistic1.csv} 
+\item The STAN model file: \texttt{logistic1.stan}
+\end{itemize}
+\par\vspace{0.3 cm}
+\subsection*{Questions}
+Use the \textit{Compile PDF} button to run the model, and use the output to answer the following questions:
+\par\vspace{0.3 cm}\noindent
+1) What is the point estimate and 95\% confidence interval for the slope parameter?
+\par\vspace{2 cm}\noindent
+2) What is the point estimate and 95\% confidence interval for the intercept for the month of April?
+\par\vspace{2 cm}\noindent
+3) What is the point estimate and 95\% confidence interval for the probability of rainfall on a day in January, 1900? In January 1947?  In January 1990?
+\par\vspace{2 cm}\noindent
+4) What is the median of, and 95\% confidence interval for, the number of rainy days in January, 1900?  In January, 1990?
+\par\vspace{2 cm}\noindent
+5) What probability does the model give that the number of rainy days in January, 1990 is greater than or equal to the number of rainy days in 1900?
+\end{document}

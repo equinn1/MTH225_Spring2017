@@ -1,0 +1,68 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+df<-read.csv("logistic1.csv")
+
+N<-nrow(df)              #number of observations
+y<-df$meas_rain          #number of days with measured rainfall in the month
+n<-df$days               #number od days in the month
+x<-df$x                  #scaled and centered time value
+m<-df$month              #month (the model has an intercept for each month)
+
+stanfit<-stan("logistic1.stan")
+print(stanfit)
+#pairs(stanfit)
+@
+
+<<>>=
+#launch_shinystan(stanfit)
+@
+
+<<>>=
+pd<-extract(stanfit)       #extract the posterior draw
+
+#comparing January 1900 to January 1990
+
+x1900<-(12*(1900-1947)+1)/279      #x for January 1900
+x1990<-(12*(1990-1947)+1)/279      #x for Jaunary 1990
+
+#compute inverse logit transform to get p values
+
+p1900<-1/(1+exp(-pd$beta0[,1]-pd$beta1*x1900))    #vector of 4000 p values for January 1900
+p1990<-1/(1+exp(-pd$beta0[,1]-pd$beta1*x1990))    #vector of 4000 p values for January 1990
+
+mean(p1900)                    #probability of rainfall January 1900
+mean(p1990)                    #probability of rainfall January 1990
+
+#compute the number of days with measurable rainfall as a binomial
+
+days1900<-rbinom(length(pd$beta1),31,p1900)
+days1990<-rbinom(length(pd$beta1),31,p1990)
+
+#quantiles for January 1900 and January 1990
+
+quantile(days1900,c(0.025,0.5,0.975))
+quantile(days1990,c(0.025,0.5,0.975))
+
+#probability that the number of days with measurable rainfall in Jan 1990 is greater than or equal to that of 1900
+
+sum(days1990>=days1900)/length(days1990)
+
+#midpoint (1947) estimation
+
+p1947<-1/(1+exp(-pd$beta0[,1]-pd$beta1*0.0))    #vector of 4000 p values for January 1947
+
+quantile(p1900,c(0.025,0.5,0.975))
+quantile(p1947,c(0.025,0.5,0.975))
+quantile(p1990,c(0.025,0.5,0.975))
+@
+\end{document}
