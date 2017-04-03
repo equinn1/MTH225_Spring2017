@@ -51,7 +51,7 @@ For this data, this formula produces values between $-2$ and $+2$.  The $x$ colu
 \par\vspace{0.3 cm}
 \subsection*{Instructions}
 \par\vspace{0.3 cm}
-As usual, start by bringing your copy of the \texttt{$\mbox{MTH225\_Fall2016}$} archive up to date.  
+As usual, start by bringing your copy of the \texttt{$\mbox{MTH225\_Spring2017}$} archive up to date.  
 \par\vspace{0.3 cm}
 Open a command prompt or terminal window, and use the \texttt{cd} command to change to the \texttt{$\mbox{MTH225\_Fall2016}$} subdirectory.  Then type the command:
 \par\vspace{0.3 cm}\noindent
