@@ -11,6 +11,7 @@ options(mc.cores = parallel::detectCores())
 
 <<>>=
 df<-read.csv("logistic1.csv")
+str(df)
 
 N<-nrow(df)              #number of observations
 y<-df$meas_rain          #number of days with measured rainfall in the month
@@ -29,6 +30,7 @@ print(stanfit)
 
 <<>>=
 pd<-extract(stanfit)       #extract the posterior draw
+str(pd)
 
 #comparing January 1900 to January 1990
 
@@ -64,5 +66,11 @@ p1947<-1/(1+exp(-pd$beta0[,1]-pd$beta1*0.0))    #vector of 4000 p values for Jan
 quantile(p1900,c(0.025,0.5,0.975))
 quantile(p1947,c(0.025,0.5,0.975))
 quantile(p1990,c(0.025,0.5,0.975))
+
+mean(pd$beta1<0)    #estimate the probability that the slope is negative
+@
+
+<<>>=
+print(get_stanmodel(stanfit))
 @
 \end{document}
