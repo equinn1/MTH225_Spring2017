@@ -1,0 +1,66 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+library(shinystan)
+
+pgm_name="logistic1"
+
+read_site<-function(sname="amherst"){
+  tempdf<-read.csv(paste(sname,"PRECIP.csv",sep=''))
+  tempdf$site<-as.factor(rep(sname,nrow(tempdf)))
+  names(tempdf)<-c("n","year","month","day","rain_mm","X01","site")
+  return(tempdf)
+}
+rainfall=read.csv("amherstPRECIP.csv")
+rainfall$site<-as.factor(rep("amherst",nrow(rainfall)))
+names(rainfall)<-c("n","year","month","day","rain_mm","X01","site")
+
+
+str(rainfall)
+
+first_year<-1900
+last_year<-1992
+
+rainfall2<-subset(rainfall,!is.na(rain_mm) & year>=first_year & year <= last_year)
+
+year<-rainfall2$year
+min(year)
+max(year)
+month<-rainfall2$month
+month_index<-12*(year-1947)+month
+mmin<-min(month_index)
+mmax<-max(month_index)
+scale<-279
+mi_mean<-floor(mean(month_index))
+meas_rain<-as.integer(rainfall2$rain_mm>0)
+days<-rep(1,nrow(rainfall2))
+x<-round((month_index)/scale,5)
+
+rainfall3<-data.frame(month,year,month_index,meas_rain,days,x)
+str(rainfall3)
+attach(rainfall3)
+df3<-(aggregate(cbind(days,meas_rain) ~ month+year+month_index+x, rainfall3, sum, na.rm=TRUE))
+str(df3)
+write.csv(df3,file="logistic1.csv",row.names=FALSE)
+
+N<-nrow(df3)
+y<-df3$meas_rain
+n<-df3$days
+x<-df3$x
+m<-df3$month
+
+stanfit<-stan("logistic1.stan")
+print(stanfit)
+save(stanfit,file="logistic1_stanfit.Rdata")
+@
+
+<<>>=
+#launch_shinystan(stanfit)
+@
+\end{document}
