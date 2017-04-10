@@ -1,0 +1,68 @@
+\documentclass{article}
+
+\begin{document}
+\section*{In-class exercise: Logistic regression}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Overview}
+\par\vspace{0.3 cm}\noindent
+In this exercise we simultaneously model the probability of measurable rainfall on a given day and the amount of rainfall on days with measurable rain in Amherst, MA from 1900 through 1992 in \texttt{taunton\_rain.csv} 
+
+\par\vspace{0.3 cm}\noindent
+\begin{itemize}
+\item The probability of measurable rain on a given day is modeled as a Bernoulli distribution.
+\item If there is measurable rainfall, the amount is modeled by a gamma distribution.
+\item If no rainfall is measured, with probability 1 the rainfall is zero.
+\end{itemize}
+\par\vspace{0.3 cm}\noindent
+The function of the model block of the .stan file is to total the log of the likelihood function over the observed values of $y$.  
+\par\vspace{0.3 cm}\noindent
+On days with no measurable rainfall, the likelihood is just $1-\theta$, where $\theta$ is the probability of rain on a given day.  The log likelihood is then:
+\[
+\ln(L(y)) = \ln(1-\theta)
+\]
+\par\vspace{0.3 cm}\noindent
+On days with measurable rainfall, the likelihood is the product of the probability of measurable rainfall, $\theta$, and the gamma density function with parameters $\alpha$ and $\beta$:
+\[
+L(y) = \theta\cdot f_{\gamma}(\alpha,\beta)
+\]
+\par\vspace{0.3 cm}\noindent
+In this case the log likelihood is
+\[
+\ln(L(y)) = \ln \theta + \ln(f_{\gamma}(\alpha,\beta))
+\]
+\par\vspace{0.3 cm}
+Look at the code in the .stan file model block, which performs these computations.
+\par\vspace{0.3 cm}\noindent
+Stan is very powerful because it allows you to implement any probability distribution that you can code the likelihood for.
+\subsection*{Instructions}
+\par\vspace{0.3 cm}
+As usual, start by bringing your copy of the \texttt{$\mbox{MTH225\_Spring2017}$} archive up to date.  
+\par\vspace{0.3 cm}
+Open a command prompt or terminal window, and use the \texttt{cd} command to change to the \texttt{$\mbox{MTH225\_Fall2016}$} subdirectory.  Then type the command:
+\par\vspace{0.3 cm}\noindent
+\texttt{git pull origin master}
+\par\vspace{0.3 cm}\noindent
+The pull operation should download the following files:
+\par\vspace{0.4 cm}
+\begin{itemize}
+\item The R-knitr code: \texttt{MTH225-11\_logistic\_mis.Rnw}  
+\item The data in Rdata format: \texttt{logistic1.csv} 
+\item The STAN model file: \texttt{logistic1.stan}
+\end{itemize}
+\par\vspace{0.3 cm}
+\subsection*{Questions}
+Use the \textit{Compile PDF} button to run the model, and use the output to answer the following questions.  Because some numbers are rather small, you should extract the posterior draw from the stanfit object and compute means and quantiles from it.
+\par\vspace{0.3 cm}\noindent
+1) What is the point estimate and 95\% confidence interval for the probability of rainfall $\theta$?
+\par\vspace{2 cm}\noindent
+2) What is the point estimate and 95\% confidence interval for the paraeter $\alpha$?
+\par\vspace{2 cm}\noindent
+3) What is the point estimate and 95\% confidence interval for the parameter $\beta$?
+\end{document}

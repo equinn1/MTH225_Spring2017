@@ -1,0 +1,43 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df = read.csv("taunton_rain.csv")
+str(df)
+
+N = nrow(df)
+y = df$rain_mm
+@
+
+Call STAN
+
+<<>>=
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+stanfit<-stan("gamma_mixture.stan") #call STAN  
+print(stanfit)                   #print a summary of the results
+@
+
+Launch shinystan
+
+<<>>=
+library(shinystan)               #downloaded from cran
+launch_shinystan(stanfit)
+@
+
+<<>>=
+pd = extract(stanfit)
+
+mean(pd$theta)
+quantile(pd$theta,c(.025,.975))
+
+mean(pd$alpha)
+quantile(pd$alpha,c(.025,.975))
+
+mean(pd$beta)
+quantile(pd$beta,c(.025,.975))
+@
+\end{document}
