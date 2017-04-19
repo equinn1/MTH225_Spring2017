@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df<-read.csv("Radon.csv")
+str(df)
+N<-nrow(df)
+y<-df$log_radon
+x<-df$floor_measure
+table(x)
+@
+
+<<>>=
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+stanfit<-stan("Radon_pooled.stan")
+print(stanfit)
+#launch_shinystan(stanfit)
+@
+
+<<>>=
+pd<-extract(stanfit)
+str(pd)
+
+basement<-pd$ypred0                                             #posterior predictive values - basement
+first_floor<-pd$ypred1                                          #posterior predictive values - first floor
+
+radon<-c(basement,first_floor)                                  #concatenate these
+floor<-c(rep(0,length(basement)),rep(1,length(first_floor)))    #indicator for floor
+
+ppostdf<-data.frame(radon,floor)                                #ggplot requires a data frame
+str(ppostdf)
+
+ggplot(ppostdf,aes(factor(floor),radon))+geom_boxplot()
+
+ggplot(ppostdf,aes(x=radon,colour=factor(floor)))+geom_density()
+@
+
+
+\end{document}

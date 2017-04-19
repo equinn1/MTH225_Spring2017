@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\begin{document}
+\section*{Multilevel pooled radon model}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Overview}
+\par\vspace{0.3 cm}\noindent
+In this exercise we will examine the Radon data using a completely pooled model, that is, we lump all of the counties together and pretend they all behave the same with respect to radon concentrations
+\par\vspace{0.3 cm}
+The pooled model is:
+\[
+y = \beta_0 + \beta_1\cdot x + e
+\]
+Where:
+\begin{itemize}
+\item $y$ is the measured radon concentration
+\item $\beta_0$ is the intercept of the regression line
+\item $\beta_1$ is the coefficient of the floor (0=basement, 1=first)
+\item $e$ is the noise term, assumed to be independent normal $(0,\sigma_e)$
+\end{itemize}
+\par\vspace{0.3 cm}\noindent
+The data elements are:
+\begin{itemize}
+\item \texttt{county}  County number
+\item \texttt{floor\_measure}  Floor - 0 or 1
+\item \texttt{log\_radon}  natural log of radon concentration
+\par\vspace{0.3 cm}
+While this model is nominally a simple regression, because $x$ takes only values zero and one, it is computationally identical to a single-factor ANOVA with two levels.  
+\par\vspace{0.3 cm}
+The difference is that we might use this model to predict radon on the second floor by coding $x=2$, something that would have no meaning in an ANOVA model.  
+\par\vspace{0.5 cm}
+The line between regression and ANOVA can be rather blurry.  This model would fall under a class of models known as "regression on dummy variables" where "dummy variables" refers to predictors that only assume the values zero and one.  This terminology is common in many fields, including economics.
+\par\vspace{0.3 cm}
+Like the single-factor ANOVA with two levels, there are only two fitted values, which correspond to the mean radon level for basements and first floors.
+\par\vspace{0.3 cm}\noindent
+The .Rnw file is:
+\par\vspace{0.3 cm}
+\texttt{Multilevel\_pooled.Rnw}
+\end{itemize}
+\par\vspace{0.5 cm}
+Questions:
+\par\vspace{0.5 cm}\noindent
+\textbf{1)} Generally you need to validate the predicted values from a model against real-world measurements.  Can you see a potential problem with the radon levels produced by this model in that regard?
+
+\end{document}

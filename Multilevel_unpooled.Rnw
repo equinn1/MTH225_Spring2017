@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df<-read.csv("Radon.csv")                     #read the radon data
+str(df)
+N<-nrow(df)                                   #define local variables visible to STAN
+county<-1+df$county
+y<-df$log_radon
+x<-df$floor_measure
+N_counties=length(unique(county))
+@
+
+<<>>=
+library(rstan)                                #boilerplate 
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+stanfit<-stan("Radon_unpooled.stan")
+print(stanfit,pars=c("a","beta","sigma_y"))
+pd<-extract(stanfit)
+str(pd)
+@
+
+Post processing
+<<>>=
+library(reshape2)                             #need this for the melt function
+ma<-melt(pd$a,value.name="ma")                #turn array of a values into long vector called ma
+str(ma)
+
+ggplot(ma,aes(factor(Var2),ma))+geom_boxplot()           #boxplot of county parameters
+
+ggplot(ma,aes(x=ma,colour=factor(Var2)))+geom_density()  #density plot of county parameters
+
+yex0<-melt(pd$yexp0,value.name="c_basement")
+
+str(yex0)
+
+ggplot(yex0,aes(factor(Var2),c_basement))+geom_boxplot()
+
+yex1<-melt(pd$yexp1,value.name="c_firstfloor")
+
+ggplot(yex1,aes(factor(Var2),c_firstfloor))+geom_boxplot()
+
+sigma_a<-apply(pd$a,1,sd)                                #compute the standard deviation of the county values
+str(sigma_a)
+mean(sigma_a)
+
+print(get_stanmodel(stanfit))
+
+launch_shinystan(stanfit)
+@
+
+\end{document}

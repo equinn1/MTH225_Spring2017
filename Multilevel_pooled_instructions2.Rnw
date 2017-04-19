@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\begin{document}
+\section*{Multilevel pooled radon model}
+\textbf{Names:} (signatures only please, printed names will not be counted)
+\par\vspace{0.3 cm}\noindent
+\begin{tabular}{ll}
+1.)$\hspace{8 cm}$&4.)\\\\
+2.)&5.)\\\\
+3.)&6.)
+\end{tabular}
+\par\vspace{0.3 cm}\noindent
+\subsection*{Overview}
+\par\vspace{0.3 cm}\noindent
+Last time we examined the completely pooled model for the Minnesota radon data.  This time we will look at the unpooled model and, finally, the partially pooled or hierarchical model.
+\par\vspace{0.3 cm}
+The pooled model is:
+\[
+y = a + \beta\cdot x + e
+\]
+Where:
+\begin{itemize}
+\item $y$ is the measured radon concentration
+\item $a$ is the intercept of the regression line
+\item $\beta$ is the coefficient of the floor number (0=basement, 1=first)
+\item $e$ is the noise term, assumed to be independent normal $(0,\sigma_y)$
+\end{itemize}
+\par\vspace{1 cm}\noindent
+The unpooled model is:
+\[
+y = a_i + \beta\cdot x + e
+\]
+Where:
+\begin{itemize}
+\item $y$ is the measured radon concentration
+\item $a_i$ is the intercept of the regression line for county $i$
+\item $\beta$ is the coefficient of the floor number (0=basement, 1=first)
+\item $e$ is the noise term, assumed to be independent normal $(0,\sigma_y)$
+\end{itemize}
+\par\vspace{1 cm}\noindent
+The partially pooled model is:
+\[
+a_i =  mu_a + e_a 
+\]
+\[
+y = a_i + \beta\cdot x + e
+\]
+This model has two levels and is called a multilevel or hierarchical model.  The first level is:
+\begin{itemize}
+\item $a_i$ is the intercept for county i, i=$1,2,\ldots,85$
+\item $\mu_a$ is the (hypothetical) mean of the county intercepts
+\item $e$ is the noise term for the county intercept, assumed to be independent normal $(0,\sigma_a)$
+\end{itemize}
+\par\vspace{0.3 cm}\noindent
+and the second level is:
+\begin{itemize}
+\item $y$ is the measured radon concentration
+\item $a_i$ is the estimated intercept for county $i$ obtained from the model above, i=$1,2,\ldots,85$
+\item $\beta$ is the coefficient of the floor number (0=basement, 1=first)
+\item $e$ is the noise term, assumed to be independent normal $(0,\sigma_y)$
+\end{itemize}
+\par\vspace{0.3 cm}\noindent
+The data elements are:
+\begin{itemize}
+\item \texttt{county}  County number
+\item \texttt{floor\_measure}  Floor - 0 or 1
+\item \texttt{log\_radon}  natural log of radon concentration
+\end{itemize}
+\par\vspace{0.3 cm}
+While this model is nominally a simple regression, because $x$ takes only values zero and one, it is computationally identical to a single-factor ANOVA with two levels.  
+\par\vspace{0.3 cm}
+The difference is that we might use this model to predict radon on the second floor by coding $x=2$, something that would have no meaning in an ANOVA model.  
+\par\vspace{0.5 cm}
+The line between regression and ANOVA can be rather blurry.  This model would fall under a class of models known as "regression on dummy variables" where "dummy variables" refers to predictors that only assume the values zero and one.  This terminology is common in many fields, including economics.
+\par\vspace{0.3 cm}
+Like the single-factor ANOVA with two levels, there are only two fitted values, which correspond to the mean radon level for basements and first floors.
+\par\vspace{0.3 cm}\noindent
+The .Rnw files are:
+\par\vspace{0.3 cm}
+\begin{itemize}
+\item\texttt{Multilevel\_unpooled.Rnw}
+\item\texttt{Multilevel\_partially\_pooled.Rnw}
+\end{itemize}
+\par\vspace{0.5 cm}
+Questions:
+\par\vspace{0.5 cm}\noindent
+\textbf{1)} In the unpooled model postprocessing, we computed a point estimate of the standard deviation of the county intercepts \texttt{sigma\_a} using the R \texttt{apply} function.  What was its value?
+\par\vspace{2 cm}\noindent
+\textbf{2)} The \texttt{print(stanfit)} output for the unpooled model contains a point extimate of \texttt{sigma\_y}.  What is that value?
+\par\vspace{2 cm}\noindent
+\textbf{3)} What is the point estimate of the standard deviation of the county intercepts \texttt{sigma\_a} in the partially pooled model (it should be in the \texttt{print(stanfit)} output)?
+\par\vspace{2 cm}\noindent
+\textbf{4)} The \texttt{print(stanfit)} output for the partially pooled model contains a point extimate of \texttt{sigma\_y}.  What is that value?
+\par\vspace{2 cm}\noindent
+\textbf{5)} How much difference is there between the unpooled and partially pooled model's estimates of \texttt{sigma\_a}? Of \texttt{sigma\_y}?
+\par\vspace{2 cm}\noindent
+\textbf{6)} Negative radon concentrations do not make sense.  Since the county intercept is the same as the predicted mean basement concentration, a model that produces a lot of negative values for this is not as plausible as one that rarely produces negative values.  Compare the boxplots from the unpooled and partially pooled models.  Do they indicate much difference in the likelihood of negative values for $a_i$?
+\end{document}
