@@ -1,0 +1,54 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+df<-read.csv("Radon.csv")
+str(df)
+N<-nrow(df)
+y<-df$log_radon
+x<-df$floor_measure
+county<-1+df$county
+N_counties<-length(unique(county))
+@
+
+<<>>=
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+stanfit_partial<-stan("Radon_partial_pooling2.stan")
+stanfit_unpooled<-stan("Radon_unpooled.stan")
+#print(stanfit,pars=c("a","mu_a","beta","sigma_a","sigma_b","sigma_y"))
+#print(get_stanmodel(stanfit))
+@
+
+<<>>=
+library(reshape2)
+pd_partial<-extract(stanfit_partial)
+pd_unpooled<-extract(stanfit_unpooled)
+
+ma<-melt(pd_partial$a,value.name="a")
+str(ma)
+pooled=rep('Partial',nrow(ma))
+ma <- cbind(ma,pooled)
+str(ma)
+
+ma_unpooled<-melt(pd_unpooled$a,value.name="a")
+pooled=rep('Unpooled',nrow(ma_unpooled))
+ma_unpooled<-cbind(ma_unpooled,pooled)
+str(ma_unpooled)
+
+ma <- rbind(ma,ma_unpooled)
+str(ma)
+
+ggplot(ma,aes(pooled, y=a))+geom_boxplot()
+
+ggplot(ma,aes(pooled, y=a))+facet_wrap(~ factor(Var2))+geom_boxplot()
+
+ggplot(ma,aes(factor(Var2), y=a))+facet_wrap(~ pooled)+geom_boxplot()
+@
+\end{document}
