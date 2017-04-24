@@ -22,8 +22,7 @@ options(mc.cores = parallel::detectCores())
 <<>>=
 stanfit_partial<-stan("Radon_partial_pooling2.stan")
 stanfit_unpooled<-stan("Radon_unpooled.stan")
-#print(stanfit,pars=c("a","mu_a","beta","sigma_a","sigma_b","sigma_y"))
-#print(get_stanmodel(stanfit))
+stanfit_pooled<-stan("Radon_pooled.stan")
 @
 
 <<>>=
@@ -50,5 +49,11 @@ ggplot(ma,aes(pooled, y=a))+geom_boxplot()
 ggplot(ma,aes(pooled, y=a))+facet_wrap(~ factor(Var2))+geom_boxplot()
 
 ggplot(ma,aes(factor(Var2), y=a))+facet_wrap(~ pooled)+geom_boxplot()
+@
+
+<<>>=
+print(stanfit_partial)
+print(stanfit_unpooled)
+print(stanfit_pooled)
 @
 \end{document}
