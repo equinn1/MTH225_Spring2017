@@ -1,0 +1,19 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(reshape2)
+library(ggplot2)
+
+
+load('multilevel_comparison.RData')
+str(ma)
+
+ggplot(ma,aes(pooled, y=a))+geom_boxplot()
+
+ggplot(ma,aes(pooled, y=a))+facet_wrap(~ factor(Var2))+geom_boxplot()
+
+ggplot(ma,aes(factor(Var2), y=a))+facet_wrap(~ pooled)+geom_boxplot()
+@
+\end{document}
