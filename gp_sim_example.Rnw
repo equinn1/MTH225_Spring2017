@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+set.seed(9134567)
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+N<-100
+x<-(seq(1:N)-N/2)/2
+x
+
+stanfit<-stan("gp_sim_example.stan")
+print(stanfit)
+launch_shinystan(stanfit)
+@
+
+\end{document}

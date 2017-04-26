@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+set.seed(9134567)
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+N<-80
+x<-runif(N,-4,4)
+y<-sin(x)
+
+stanfit<-stan("gp_sim_example4.stan")
+print(stanfit)
+pd<-extract(stanfit)
+hist(pd$y[,10])
+str(pd)
+launch_shinystan(stanfit)
+@
+
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+#set.seed(9134567)
+library(rstan)
+library(shinystan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+@
+
+<<>>=
+N<-30
+D<-5
+x<-matrix(data=NA,nrow=N,ncol=D)
+for (i in 1:N){
+  x[i,]<-runif(1)+(seq(1:D)-D/2)/2
+}
+str(x)
+
+stanfit<-stan("gp_sim_example3.stan",thin=1000,iter=4000000)
+print(stanfit)
+pd<-extract(stanfit)
+hist(pd$y[,10])
+str(pd)
+launch_shinystan(stanfit)
+@
+
+\end{document}
