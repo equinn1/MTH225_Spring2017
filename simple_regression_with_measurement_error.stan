@@ -1,9 +1,9 @@
 //simple regression with measurement error
 data {
-  int N;                                //sample1 size
-  vector[N] y;                            //y values
-  vector[N] x_meas;                       //x value with measurement error
-  real<lower=0> tau;
+  int N;                        //sample1 size
+  vector[N] y;                  //y values
+  vector[N] x_meas;             //x value with measurement error
+  real<lower=0> tau;            //standard deviation of x measurements
 }
 parameters {
   real alpha;                   //intercept
