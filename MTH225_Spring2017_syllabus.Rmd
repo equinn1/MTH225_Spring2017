@@ -1,0 +1,61 @@
+---
+title: "MTH225 Spring 2017 Syllabus"
+author: "E. Quinn"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+Office: Duffy 241
+
+Office hours:  Monday, Wednesday, Friday 11:30-1:00 or by appointment
+
+Text: We will not have a textbook.
+
+* Week 1 (beginning 1/17)
+    + Introduction and course overview
+    + Software installation - R, Rstudio, rstan, knitr, LaTeX, git, and, optionally, GNU Octave (recommended for environmental science and non-CS Notre Dame Engineering)
+    + In-class exercise: The Metropolis-Hasting Algorithm and Markov Chain Monte Carlo methods
+* Week 2 (beginning 1/23)
+    + Introduction to Bayesian and frequentist statistics 
+    + Single parameter distributions: Bernoulli, Poisson, exponential
+    + Bayesian parameter estimation using R and STAN
+    + Point estimates and interval estimates
+* Week 3 (beginning 1/30)
+    + Two-parameter distributions: normal, gamma, and beta
+    + Properties of the normal distribution
+    + Bayesian parameter estimation with multiple parameters
+* Week 4 (beginning 2/06)
+    + Inference in the case of two samples 
+    + Frequentist t-test and its assumptions and limitations
+    + Bayesian two-sample inference
+    + post-processing of MCMC posterior draws
+* Week 5 (beginning 2/13)
+    + Single-factor or one-way ANOVA with two levels
+    + frequentist and Bayesian inference in the single-factor ANOVA
+* Week 6 (beginning 2/20)
+    + Single-factor or one-way ANOVA with more than two levels 
+    + Frequentist and Bayesian multiple comparisons
+* Week 7 (beginning 2/27)
+    + Simple and multiple regression
+* Week 8 (beginning 3/13)
+    + Simple and multiple regression
+* Week 9 (beginning 3/20)
+    + Single-factor ANOVA with covariates (ANCOVA)
+* Week 10 (beginning 3/27)
+    + Two-factor or two-way ANOVA without interaction
+* Week 11 (beginning 4/03)
+    + Two-factor ANOVA with interaction
+* Week 12 (beginning 4/10)
+    + Logistic regression
+* Week 13 (beginning 4/17)
+    + Mixture models
+* Week 14 (beginning 4/24)
+    + Hierarchical models
+* Week 15 (beginning 5/01)
+    + Gaussian process models
+
+Students with Disabilities
+
+Stonehill College is committed to providing a welcoming, supportive and inclusive environment for students with disabilities. The Office of Accessibility Resources (OAR) provides a point of coordination, resources and support for students with disabilities and the campus community. If you anticipate or experience physical or academic barriers based on disability, please let me know so that we can discuss options. You are also welcome to contact OAR to begin this conversation or to establish reasonable accommodations for this or other courses. OAR is located within the Academic Services & Advising Suite in Duffy 104. For additional information please call (508) 565-1306 or email accessibility-resources@stonehill.edu.
